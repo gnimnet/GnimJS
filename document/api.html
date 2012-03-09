@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <link rel="stylesheet" href="api.css" />
+        <title>GnimJS v1.0.7</title>
+    </head>
+    <body>
+        <div class="content">
+            <div id="logo">GnimJS</div>
+        </div>
+        <div class="content">
+            <h2>Welcome to <em>GnimJS</em> v1.0.7</h2>
+
+            <!-- 什么是GnimJS -->
+            <h3>什么是<em>GnimJS</em>?</h3>
+            <p>GnimJS是一个精简的JavaScript库，包含基本的Dom操作、事件处理、Ajax支持。</p>
+
+            <!-- 非注入模式 -->
+            <h3>非注入模式</h3>
+            <p>如果不希望将Gnim对象替换为$，可以删去库主匿名函数第三个参数，或者传false。</p>
+
+            <!-- Gnim函数 -->
+            <h3>Gnim函数</h3>
+            <p>GnimJS的核心函数，该函数也可以使用$来替代作为短命名。</p>
+            <p><code>Gnim</code> 函数可以接受4种参数：选择器、HTML元素(或数组)、HTML代码、Gnim对象。</p>
+            <p>(1) 选择器：查找元素，返回Gnim对象。</p>
+            <p>(2) HTML元素(或数组)：包装元素为Gnim对象。</p>
+            <p>(3) HTML代码：创建HTML元素，返回Gnim对象。</p>
+            <p>(4) Gnim对象：直接返回。</p>
+
+            <!-- CSS选择器查找DOM -->
+            <h3>CSS选择器查找DOM</h3>
+            <p>GnimJS支持最基本的ID查找、标签查找以及类查找，可以混合是搭配使用，并且可以使用逗号分隔多个选择器。</p>
+            <p>查找得到的元素可以当做数组来使用获取查找到的结果。</p>
+            <pre class="pre"><span class="sys">var</span> str = <span class="str">'查找结果：'</span>;
+str += <span class="str">'\n共有 '</span> + $(<span class="str">'div'</span>).length + <span class="str">' 个 div 块'</span>;
+str += <span class="str">'\n共有 '</span> + $(<span class="str">'.content'</span>).length + <span class="str">' 个 .content 块'</span>;
+str += <span class="str">'\n共有 '</span> + $(<span class="str">'#logo'</span>).length + <span class="str">' 个 #logo 块'</span>;
+str += <span class="str">'\n共有 '</span> + $(<span class="str">'.content button,#logo'</span>).length + <span class="str">' 个 .content button与#logo 块'</span>;
+alert(str);</pre>
+            <p><button onclick="Demo.selector();">执行代码</button></p>
+
+            <!-- 包装HTML元素 -->
+            <h3>包装HTML元素</h3>
+            <p>将元素数组或元素传给 <code>Gnim</code> 函数可以将其包装为Gnim对象。</p>
+            <pre class="pre"><span class="sys">var</span> con = document.getElementById(<span class="str">'warp_elm'</span>);
+<span class="sys">var</span> warpCon = $(con);
+<span class="sys">var</span> warpElms = $(con.getElementsByTagName(<span class="str">'div'</span>));
+alert(<span class="str">'Con.text():\n'</span> + warpCon.text());
+alert(<span class="str">'Elms.text():\n'</span> + warpElms.text());</pre>
+            <p><button onclick="Demo.warpElm();">执行代码</button></p>
+            <div id="warp_elm" class="demo">
+                <div>Element-1</div>
+                <div>Element-2</div>
+                <div>Element-3</div>
+            </div>
+
+            <!-- 创建HTML -->
+            <h3>创建HTML</h3>
+            <p>将HTML代码传给 <code>Gnim</code> 函数可以创建页面DOM元素，并包装为Gnim对象。(注：HTML代码必须为'&lt;'开头)</p>
+            <pre class="pre"><span class="sys">var</span> htmlStr = <span class="str">'&lt;p style="color:yellow"&gt;This is a demo...&lt;/p&gt;'</span>;
+$(htmlStr).appendTo(<span class="str">'#warp_html'</span>);</pre>
+            <p><button onclick="Demo.warpHTML();">执行代码</button></p>
+            <div id="warp_html" class="demo">
+                <div>Create HTML:</div>
+            </div>
+
+            <!-- 核心函数 -->
+            <h3>核心函数</h3>
+            <p>Gnim对象包含对Dom操作、时间绑定等函数。</p>
+            <pre class="pre">$(selector).each(fn); <span class="com">//遍历Gnim对象中每个元素的函数，回调为function(elm){}</span>
+
+$(selector).find(selector); <span class="com">//在当前获取元素中查找子元素</span>
+
+$(selector).html(); <span class="com">//获取第一个元素的内部HTML代码，没有元素返回null</span>
+$(selector).html(val); <span class="com">//设定每个元素的内部HTML代码，没有元素返回null</span>
+
+$(selector).text(); <span class="com">//获取第一个元素的内部文本，没有元素返回null</span>
+$(selector).text(val); <span class="com">//设定每个元素的内部文本，没有元素返回null</span>
+
+$(selector).append(childElm); <span class="com">//添加子元素childElm到最后(childElm参数会被Gnim函数包装)</span>
+$(selector).appendTo(fatherElm); <span class="com">//添加为fatherElm最后的子元素(fatherElm参数会被Gnim函数包装)</span>
+$(selector).prepend(childElm); <span class="com">//添加子元素childElm到最前(childElm参数会被Gnim函数包装)</span>
+$(selector).prependTo(fatherElm); <span class="com">//添加为fatherElm最前的子元素(fatherElm参数会被Gnim函数包装)</span>
+
+$(selector).after(content); <span class="com">//将content添加到最后一个元素之后(childElm参数会被Gnim函数包装)</span>
+$(selector).insertAfter(target); <span class="com">//将所有元素添加到target之后(fatherElm参数会被Gnim函数包装)</span>
+$(selector).before(content); <span class="com">//将content添加到最后一个元素之前(content参数会被Gnim函数包装)</span>
+$(selector).insertBefore(target); <span class="com">//将所有元素添加到target之前(target参数会被Gnim函数包装)</span>
+
+$(selector).remove(); <span class="com">//删除每个元素</span>
+$(selector).empty(); <span class="com">//清空每个元素内部</span>
+
+$(selector).css(name); <span class="com">//获取第一个元素的样式值</span>
+$(selector).css(name,value); <span class="com">//设置元素指定样式值(单值)</span>
+$(selector).css(style); <span class="com">//设置元素样式值(多值)</span>
+
+$(selector).attr(name); <span class="com">//获取第一个元素的属性值</span>
+$(selector).attr(name,value); <span class="com">//设置元素指定属性值(单值)</span>
+$(selector).attr(attribute); <span class="com">//设置元素属性值(多值)</span>
+$(selector).removeAttr(name); <span class="com">//移除元素属性值</span>
+
+$(selector).hasClass(className); <span class="com">//获取第一个元素的样式值</span>
+$(selector).addClass(className); <span class="com">//获取第一个元素的样式值</span>
+$(selector).removeClass(className); <span class="com">//获取第一个元素的样式值</span>
+$(selector).toggleClass(className); <span class="com">//获取第一个元素的样式值</span>
+
+$(selector).bind(type,fn); <span class="com">//在元素上绑定某事件回调函数</span>
+$(selector).unbind(type,fn); <span class="com">//在元素上移除某事件回调函数</span>
+
+$(selector).blur(fn); <span class="com">//在元素上绑定失去焦点事件回调函数</span>
+$(selector).change(fn); <span class="com">//在元素上绑定值改变事件回调函数</span>
+$(selector).click(fn); <span class="com">//在元素上绑定点击事件回调函数</span>
+$(selector).dblclick(fn); <span class="com">//在元素上绑定双击事件回调函数</span>
+$(selector).error(fn); <span class="com">//在元素上绑定错误事件回调函数</span>
+$(selector).focus(fn); <span class="com">//在元素上绑定获得焦点事件回调函数</span>
+$(selector).keydown(fn); <span class="com">//在元素上绑定按键按下事件回调函数</span>
+$(selector).keypress(fn); <span class="com">//在元素上绑定按键点击事件回调函数</span>
+$(selector).keyup(fn); <span class="com">//在元素上绑定按键松开事件回调函数</span>
+$(selector).load(fn); <span class="com">//在元素上绑定加载事件回调函数</span>
+$(selector).mousedown(fn); <span class="com">//在元素上绑定鼠标点击按下事件回调函数</span>
+$(selector).mousemove(fn); <span class="com">//在元素上绑定鼠标移动事件回调函数</span>
+$(selector).mouseout(fn); <span class="com">//在元素上绑定鼠标离开事件回调函数</span>
+$(selector).mouseover(fn); <span class="com">//在元素上绑定鼠标进入事件回调函数</span>
+$(selector).mouseup(fn); <span class="com">//在元素上绑定鼠标点击松开事件回调函数</span>
+$(selector).resize(fn); <span class="com">//在元素上绑定改变大小事件回调函数</span>
+$(selector).scroll(fn); <span class="com">//在元素上绑定滚动事件回调函数</span>
+$(selector).select(fn); <span class="com">//在元素上绑定选择事件回调函数</span>
+$(selector).submit(fn); <span class="com">//在元素上绑定提交事件回调函数</span>
+$(selector).unload(fn); <span class="com">//在元素上绑定卸载事件回调函数</span>
+$(selector).hover(overfn, outfn); <span class="com">//在元素上绑定进入及离开事件回调函数</span></pre>
+
+            <!-- 浏览器检测 -->
+            <h3>浏览器检测</h3>
+            <p>很多时候我们需要根据执行环境的浏览器来运行不同的代码，在 <code>$.broswer</code> 下放置了浏览器特性。</p>
+            <p><code>$.broswer</code> 可以判断 chrome、safari 、webkit 、opera 、msie 、firefox及mozilla 。</p>
+            <p><code>$.broswer.version</code> 中获取浏览器版本。</p>
+            <pre class="pre"><span class="sys">var</span> str = <span class="str">'浏览器信息：'</span>;
+<span class="sys">for</span> (<span class="sys">var</span> elm <span class="sys">in</span> $.broswer) {
+    str += <span class="str">'\n'</span> + elm + <span class="str">' - '</span> + $.broswer[elm];
+}
+alert(str);</pre>
+            <p><button onclick="Demo.broswer();">执行代码</button></p>
+
+            <!-- DOM就绪 -->
+            <h3>DOM就绪</h3>
+            <p>当我们需要在网页加载完成运行JS，可以使用 <code>$.ready(fn)</code> 来包裹执行代码。</p>
+            <pre class="pre">$.ready(<span class="sys">function</span>(){<span class="com">//DOM就绪回调</span>
+    $(<span class="str">'#ready'</span>).html(<span class="str">'DOM已经就绪'</span>);
+});</pre>
+            <p>上面的代码将在DOM就绪后执行，结果如下：</p>
+            <div id="ready" class="demo">DOM尚未就绪...</div>
+
+            <!-- 对象检测 -->
+            <h3>对象检测</h3>
+            <p>GnimJS有一些用于检测对象的常用函数 <code>$.isStr</code> 、 <code>$.isNum</code> 、 <code>$.isObj</code> 、 <code>$.isFunc</code> 、 <code>$.isArr</code>、 <code>$.isArray</code>。</p>
+            <p>isArr与isArray的不同在于isArr判断对象length属性是否为数字，而isArray判断对象的原型是否为Array（更准确为数组）。</p>
+            <pre class="pre"><span class="sys">var</span> resultStr = <span class="str">'结果：'</span>;
+<span class="sys">var</span> funcs = [<span class="str">'isStr'</span>, <span class="str">'isNum'</span>, <span class="str">'isArr'</span>];<span class="com">//执行函数</span>
+<span class="sys">var</span> paramStr = [<span class="str">'\'123\''</span>, <span class="str">'123'</span>, <span class="str">'[]'</span>, <span class="str">'{}'</span>];<span class="com">//参数字符串</span>
+<span class="sys">var</span> params = [<span class="str">'123'</span>, <span class="num">123</span>, [], {}];<span class="com">//测试参数</span>
+<span class="sys">for</span> (<span class="sys">var</span> i = <span class="num">0</span>; i < funcs.length; i++) {
+    <span class="sys">for</span> (<span class="sys">var</span> j = <span class="num">0</span>; j < params.length; j++) {
+        resultStr += <span class="str">'\n$.'</span> + funcs[i] + <span class="str">'('</span> + paramStr[j] + <span class="str">') : '</span> + $[funcs[i]](params[j]);
+    }
+    resultStr += <span class="str">'\n'</span>;
+}
+alert(resultStr);</pre>
+            <p><button onclick="Demo.test();">执行代码</button></p>
+
+            <!-- 对象转换 -->
+            <h3>对象转换</h3>
+            <p>GnimJS有一些用于转换对象的常用函数 <code>$.toInt</code> 、 <code>$.toFloat</code> 、 <code>$.toStr</code>、 <code>$.toHex</code>。</p>
+            <pre class="pre"><span class="sys">var</span> resultStr = <span class="str">'结果：'</span>;
+resultStr += <span class="str">'\n$.toInt(\'123.12\') : '</span> + $.toInt(<span class="str">'123.12'</span>);
+resultStr += <span class="str">'\n$.toFloat(\'123.12\') : '</span> + $.toFloat(<span class="str">'123.12'</span>);
+resultStr += <span class="str">'\n$.toStr(123.12) : \''</span> + $.toStr(<span class="num">123.12</span>)+<span class="str">'\''</span>;
+resultStr += <span class="str">'\n$.toHex(123) : \''</span> + $.toHex(<span class="num">123</span>)+<span class="str">'\''</span>;
+resultStr += <span class="str">'\n$.toHex(123,6) : \''</span> + $.toHex(<span class="num">123</span>,<span class="num">6</span>)+<span class="str">'\''</span>;
+alert(resultStr);</pre>
+            <p><button onclick="Demo.parse();">执行代码</button></p>
+
+            <!-- 字符串去左右空格 -->
+            <h3>字符串去前后空格</h3>
+            <p>GnimJS含有字符串左右空格出去函数 <code>$.trim</code> 、 <code>$.ltrim</code> 、 <code>$.rtrim</code>。</p>
+            <pre class="pre"><span class="sys">var</span> resultStr = <span class="str">'结果：'</span>;
+resultStr += <span class="str">'\n$.trim(\'  a string   \') : \''</span> + $.trim(<span class="str">'  a string   '</span>)+<span class="str">'\''</span>;
+resultStr += <span class="str">'\n$.ltrim(\'  a string   \') : \''</span> + $.ltrim(<span class="str">'  a string   '</span>)+<span class="str">'\''</span>;
+resultStr += <span class="str">'\n$.rtrim(\'  a string   \') : \''</span> + $.rtrim(<span class="str">'  a string   '</span>)+<span class="str">'\''</span>;
+alert(resultStr);</pre>
+            <p><button onclick="Demo.trim();">执行代码</button></p>
+
+            <!-- 对象注入 -->
+            <h3>对象注入</h3>
+            <p>GnimJS的对象注入函数 <code>$.inject</code> 用于将一个对象注入另一个对象。</p>
+            <pre class="pre"><span class="sys">var</span> obj1 = { a: <span class="num">1</span>, b: <span class="num">2</span>, c: <span class="num">3</span> };
+<span class="sys">var</span> obj2 = { x: <span class="num">4</span>, y: <span class="num">5</span>, z: <span class="num">6</span> };
+$.inject(obj1, obj2);
+<span class="sys">var</span> str = <span class="str">'obj1:'</span>;
+<span class="sys">for</span> (<span class="sys">var</span> elm <span class="sys">in</span> obj1) {
+    str += <span class="str">'\n'</span> + elm + <span class="str">' : '</span> + obj1[elm];
+}
+alert(str);</pre>
+            <p><button onclick="Demo.inject();">执行代码</button></p>
+
+            <!-- DOM元素创建 -->
+            <h3>DOM元素创建</h3>
+            <p>GnimJS的函数 <code>$.build</code> 用于将字符串构建为DOM元素数组。</p>
+            <pre class="pre"><span class="sys">var</span> htmlStr = <span class="str">'&lt;p&gt;this is line - 1...&lt;/p&gt;'</span>
+    + <span class="str">'&lt;p&gt;this is line - 2...&lt;/p&gt;'</span>;
+<span class="sys">var</span> nodes = $.build(htmlStr);
+$(nodes).appendTo(<span class="str">'#build'</span>);</pre>
+            <p><button onclick="Demo.build();">执行代码</button></p>
+            <div id="build" class="demo"><p>DOM元素创建：</p></div>
+
+            <!-- 事件冒泡与默认行为 -->
+            <h3>事件冒泡与默认行为</h3>
+            <p>GnimJS的函数 <code>$.noBubble(e)</code> 和 <code>$.noDefault(e)</code> 用于停止事件冒泡和阻止浏览器默认行为。</p>
+            <p>这两个函数接收参数均为事件Event。</p>
+
+            <!-- 当前UTC时间戳 -->
+            <h3>当前UTC时间戳</h3>
+            <p>GnimJS的函数 <code>$.now()</code> 用来获取从当前的UTC时间戳(毫秒)。</p>
+            <pre class="pre">alert($.now());</pre>
+            <p><button onclick="Demo.now();">执行代码</button></p>
+
+
+            <!-- Ajax -->
+            <h3>Ajax</h3>
+            <p>GnimJS的函数 <code>$.get</code> 、 <code>$.post</code> 和 <code>$.ajax</code> 用于Ajax请求。</p>
+            <p><code>$.ajax</code> 函数的参数对象可有属性为 <code>url</code> / <code>type</code> / <code>contentType</code> / <code>dataType</code> / <code>success</code> / <code>error</code> / <code>data</code> / <code>timeout</code></p>
+            <pre class="pre"><span class="sys">function</span> _get() {
+    <span class="sys">var</span> sendPack = { a: <span class="num">1</span>, b: <span class="str">'str'</span> };
+    $.get(<span class="str">'Data.txt?test=1</span>', sendPack, <span class="sys">function</span>(data) { alert(<span class="str">'Get Data:\n'</span> + data); });
+}
+<span class="sys">function</span> _post() {
+    <span class="sys">var</span> sendPack = { a: <span class="num">1</span>, b: <span class="str">'str'</span> };
+    $.post(<span class="str">'Data.txt'</span>, sendPack, <span class="sys">function</span>(data) { alert(<span class="str">'Get Data:\n'</span> + data); });
+}
+<span class="sys">function</span> _ajax() {
+    <span class="sys">var</span> sendPack = { a: <span class="num">1</span>, b: <span class="str">'str'</span> };
+    $.ajax({
+        url: <span class="str">'Data.txt'</span>,
+        data: sendPack,
+        success: <span class="sys">function</span>(data) { alert(<span class="str">'Get Data:\n'</span> + data); }
+    });
+}</pre>
+            <p><button onclick="Demo.get();">$.get</button><button onclick="Demo.post();">$.post</button><button onclick="Demo.ajax();">$.ajax</button></p>
+
+        </div>
+        <div class="content footer">Ming &copy; 2011</div>
+        <!--
+        <script src="../full/gnim.js"></script>
+        -->
+        <script src="../min/gnim-min.js"></script>
+        <script src="api.js"></script>
+    </body>
+</html>

@@ -1,0 +1,33 @@
+/*
+ * GnimJS Document Style
+ * Author:  Ming
+ * Date:    2011.08.03
+ * Site:    http://gnim.net
+ */
+
+*{margin:0;padding:0;}
+html{color:#EEE;background:#333;text-align:center;}
+html,button,input,select,textarea{font-family:arial,sans-serif;font-size:12px;}
+a{text-decoration:underline;color:#FFF;}
+a:hover{text-decoration:none;color:#FFF;}
+input,select,textarea{background:#666;color:#EEE;}
+h2{font-size:20px;margin:15px 0 5px;}
+h3{font-size:15px;margin:10px 0 5px;}
+h2 em,h3 em{font-style:normal;color:#EFEB4D;}
+h2,h3{font-family:"Microsoft YaHei",SimHei,arial,sans-serif;clear:both;}
+p{display:block;margin:5px;line-height:150%;}
+code{color:#FFF;color:#EFEB4D;}
+.pre{margin:5px;padding:5px 8px;border-left:#EFEB4D 3px solid;color:#FFF;background:#444;}
+button{border:none;padding:5px 7px;margin:0 5px;display:inline-block;background:#EFEB4D;color:#000;border-radius:5px;-webkit-border-radius:5px;-moz-border-radius:5px;}
+button:active{position:relative;top:1px;color:#A00;}
+.input{border:#EEE 1px solid;width:140px;padding:3px 5px;vertical-align:middle;margin:0 5px;}
+.text{border:#EEE 1px solid;padding:3px 5px;vertical-align:top;margin:0 5px;width:300px;height:60px;overflow:auto;}
+.content{padding:5px;display:inline-block;width:800px;text-align:left;position:relative;border-bottom:#FFF 1px solid;}
+.footer{border-bottom:none;}
+.demo{background:#444;margin:5px;padding:5px;}
+#logo{margin:10px;width:200px;height:60px;display:inline-block;background:url("logo.gif") no-repeat 50% 50%;vertical-align:text-bottom;text-indent:-9999px;overflow:hidden;}
+.sys{color:#468BCA;}/* system label */
+.num{color:#F29438;}/* number */
+.str{color:#E83A37;}/* string */
+.reg{color:#AF83B9;}/* regular expression */
+.com{color:#9DCA3E;}/* comment */

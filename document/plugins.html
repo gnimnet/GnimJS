@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <link rel="stylesheet" href="api.css" />
+        <title>GnimJS v1.0 Plugins</title>
+        <style>
+            #anim{display:block;width:100px;height:50px;background:#666;border-left:#FFF 1px solid;padding:5px;}
+        </style>
+    </head>
+    <body>
+        <div class="content">
+            <div id="logo">GnimJS</div>
+        </div>
+        <div class="content">
+            <h2>Welcome to <em>GnimJS</em> v1.0 Plugins</h2>
+
+            <!-- Cookie -->
+            <h3>Cookie</h3>
+            <p>Cookie插件提供了获取和设置Cookie的支持，使用函数 <code>$.cookie</code> 来操作cookie。</p>
+            <p><code>$.cookie</code> 可以接受三个参数 <code>name</code> 、 <code>value</code> 、 <code>options</code>，<code>options</code> 包括 <code>expires</code> (保存天数)、 <code>path</code> (网站路径)、 <code>domain</code> (网站域)、 <code>secure</code> (安全选项)</p>
+            <pre class="pre">$.cookie(<span class="str">'demo'</span>,<span class="str">'This is a demo'</span>);<span class="com">//设置Cookie</span>
+$.cookie(<span class="str">'demo'</span>,<span class="sys">null</span>);<span class="com">//删除Cookie</span>
+<span class="sys">var</span> cookie=$.cookie(<span class="str">'demo'</span>);<span class="com">//获取Cookie</span></pre>
+            <p>当前演示Cookie值：</p>
+            <div id="cookie" class="demo">尚未获取Cookie</div>
+            <p><button onclick="Demo.setCookie();">设置</button><button onclick="Demo.delCookie();">删除</button></p>
+
+            <!-- 快捷键 -->
+            <h3>快捷键</h3>
+            <p>快捷键插件提供了网页和页面元素的快捷键绑定支持，使用函数 <code>$.shortcut(shortcut,callback)</code> (绑定全文)和 <code>$(shortcut,callback).shortcut</code> (绑定元素)。</p>
+            <p>shortcut参数必须为 <code>Ctrl,Alt,Shift</code> 作为前缀引导，可使用一个或多个(也可以不使用)，最后为一个一般按键。</p>
+            <p>shortcut参数可以包含 <code>A-Z,0-9,F1-F12,Left,Up,Right,Down,Insert,Delete,Home,End,Pageup,Pagedown,Pause,Backspace,Tab,Enter,Esc,Space,(以及一些ASCII符号)</code></p>
+            <pre class="pre">$.shortcut(<span class="str">'Ctrl + Alt + Enter'</span>, <span class="sys">function</span>(e) {
+    alert(<span class="str">'Event On: document'</span>);
+});<span class="com">//绑定到网页(Document)</span>
+$(<span class="str">'#shortcut .input'</span>).shortcut(<span class="str">'Ctrl + Alt + Enter'</span>, <span class="sys">function</span>(e) {
+    $.noBubble(e);<span class="com">//禁止事件冒泡，否则网页快捷键监听会被触发</span>
+    alert(<span class="str">'Input Value: '</span> + <span class="sys">this</span>.value);
+});<span class="com">//绑定到文本框</span></pre>
+            <p>分别在文本框内和文本框外测试快捷键 Ctrl + Alt + Enter：</p>
+            <div id="shortcut" class="demo"><input class="input" /></div>
+
+            <!-- 元素动画 -->
+            <h3>元素动画</h3>
+            <p>FX插件用于提供元素动画的支持。</p>
+            <p>插件包括静态函数 <code>$.fx.currentStyle</code> 、 <code>$.fx.anim</code> 、 <code>$.fx.left</code> 、 <code>$.fx.right</code> 、 <code>$.fx.top</code> 、 <code>$.fx.bottom</code> 。
+                以及核心函数 <code>$(selector).currentStyle</code> 、 <code>$(selector).anim</code> 、 <code>$(selector).left</code> 、 <code>$(selector).right</code> 、 <code>$(selector).top</code> 、 <code>$(selector).bottom</code> 。</p>
+            <pre class="pre">$.fx.currentStyle(node,style);<span class="com">//获取元素当前渲染样式名称</span>
+$.fx.anim(node, styles, duration, callback, type);<span class="com">//DOM元素动画</span>
+$.fx.left(node);<span class="com">//DOM元素左距离</span>
+$.fx.right(node);<span class="com">//DOM元素右距离</span>
+$.fx.top(node);<span class="com">//DOM元素顶距离</span>
+$.fx.bottom(node);<span class="com">//DOM元素底距离</span>
+
+$(selector).currentStyle(style);<span class="com">//第一个元素当前渲染样式名称</span>
+<span class="com">//DOM元素动画</span>
+<span class="com">//  styles  --  结束样式对象</span>
+<span class="com">//  duration  --  (可选)duration可为一个ms时间或者'fast'(200ms)、'slow'(1000ms)，默认为500ms</span>
+<span class="com">//  callback  --  (可选)callback回调函数的this为对应动画元素</span>
+<span class="com">//  type  --  (可选)type可以为'liner'(线性),'sine'(三角函数),'inertia'(重力回旋)，默认为二次</span>
+$(selector).anim(styles, duration, callback, type);
+$(selector).left();<span class="com">//第一个DOM元素左距离</span>
+$(selector).right();<span class="com">//第一个DOM元素右距离</span>
+$(selector).top();<span class="com">//第一个DOM元素顶距离</span>
+$(selector).bottom();<span class="com">//第一个DOM元素底距离</span></pre>
+            <p>演示代码：</p>
+            <pre class="pre">$(<span class="str">'#anim'</span>)
+    .css({color:<span class="str">'#e83a37'</span>,<span class="str">'font-size'</span>:<span class="str">'12px'</span>,width:<span class="str">'200px'</span>,
+        <span class="str">'border-left-width'</span>:<span class="str">'1px'</span>,<span class="str">'border-left-color'</span>:<span class="str">'#e83a37'</span>})
+    .anim({color:<span class="str">'#efeb4d'</span>,<span class="str">'font-size'</span>:<span class="str">'20px'</span>,width:<span class="str">'400px'</span>,
+        <span class="str">'border-left-width'</span>:<span class="str">'10px'</span>,<span class="str">'border-left-color'</span>:<span class="str">'#efeb4d'</span>},<span class="str">'fast'</span>);</pre>
+            <p><button onclick="Demo.anim();">执行</button><button onclick="Demo.anim2();">循环</button></p>
+            <div class="demo">
+                <div id="anim">For Animate Test...</div>
+            </div>
+
+            <!-- 获取URL参数 -->
+            <h3>获取URL参数</h3>
+            <p>URL参数插件用于获取URL中的GET参数，使用函数 <code>$.param(name)</code> 。</p>
+            <p>对于没有值的参数返回null，没有指定的参数返回undefined。</p>
+            <pre class="pre">alert($.param(<span class="str">'test'</span>));</pre>
+            <p><button onclick="Demo.param();">获取参数</button></p>
+
+            <!-- 文本选择 -->
+            <h3>文本选择</h3>
+            <p>文本选择插件用于设置和获取文本框中选择的文字，使用函数 <code>$.sel(node,start,end)</code> 和 <code>$(selector).sel(start,end)</code> 。</p>
+            <p>不传 <code>start</code> 和 <code>end</code> 参数时将返回选择文本信息 <code>{start,end,text}</code> 。</p>
+            <pre class="pre"><span class="sys">var</span> node=$(<span class="str">'#sel .input'</span>)[<span class="num">0</span>];
+$(node).sel(<span class="num">0</span>,node.value.length);<span class="com">//全选文本框</span>
+
+$(<span class="str">'#sel .input'</span>).select(<span class="sys">function</span>(e){
+    <span class="sys">var</span> node=e.currentTarget||e.srcElement;
+    <span class="sys">var</span> sel=$(node).sel();
+    <span class="sys">var</span> selText=node.value.substring(sel.start,sel.end);
+    $.log(<span class="str">'Select Input:'</span>+selText,<span class="str">'#sel'</span>);
+});</pre>
+            <p><button onclick="Demo.sel1();">全选1</button><button onclick="Demo.sel2();">全选2</button></p>
+            <div id="sel" class="demo">
+                <p><input class="input" value="This is a text input..." /></p>
+                <p><textarea class="text">This is a textarea...</textarea></p>
+            </div>
+
+
+        </div>
+        <div class="content footer">Ming &copy; 2011</div>
+        <!--
+        <script src="../full/gnim.js"></script>
+        <script src="../full/gnim-cookie.js"></script>
+        <script src="../full/gnim-key.js"></script>
+        <script src="../full/gnim-fx.js"></script>
+        <script src="../full/gnim-param.js"></script>
+        <script src="../full/gnim-select.js"></script>
+        -->
+        <script src="../min/gnim-min.js"></script>
+        <script src="../min/gnim-cookie-min.js"></script>
+        <script src="../min/gnim-key-min.js"></script>
+        <script src="../min/gnim-fx-min.js"></script>
+        <script src="../min/gnim-param-min.js"></script>
+        <script src="../min/gnim-select-min.js"></script>
+        <script src="plugins.js"></script>
+    </body>
+</html>
