@@ -4,14 +4,14 @@
  * Date : 2012-03-03
  * WebSite : http://gnim.net
  */
-(function(window, document, set$, undefined) {
+(function(window, document, set$, NULL, UNDEFINED) {
     var LEN = 'length';
     function Gnim(selector, context) {
         return (selector && selector._gnim) ? selector : new _core(selector, context);
     }
     function _core(selector, context) {//constructor of Gnim core
         this._gnim = true; //mark object to be Gnim library core object
-        if(selector!==null && selector!==undefined){
+        if(selector!==NULL && selector!==UNDEFINED){
             var elms;
             if (_isStr(selector)) {//selector or html string
                 if (selector.charAt(0) == '<') {//is html string
@@ -306,7 +306,7 @@
         return (new Date()).getTime();
     }
     function _log(msg, selector) {
-        if (selector === undefined) {
+        if (selector === UNDEFINED) {
             if (console && console.log) {
                 console.log(msg);
             }
@@ -318,21 +318,21 @@
     /* broswer test */
     var _broswer = (function(ua) {
         var rchrome = /(chrome)[ \/]([\w.]+)/,
-            rsafari = /(safari)[ \/]([\w.]+)/,
-            rwebkit = /(webkit)[ \/]([\w.]+)/,
-            ropera = /(opera)(?:.*version)?[ \/]([\w.]+)/,
-            rmsie = /(msie) ([\w.]+)/,
-            rfirefox = /(firefox)[ \/]([\w.]+)/,
-            rmozilla = /(mozilla)(?:.*? rv:([\w.]+))?/;
+        rsafari = /(safari)[ \/]([\w.]+)/,
+        rwebkit = /(webkit)[ \/]([\w.]+)/,
+        ropera = /(opera)(?:.*version)?[ \/]([\w.]+)/,
+        rmsie = /(msie) ([\w.]+)/,
+        rfirefox = /(firefox)[ \/]([\w.]+)/,
+        rmozilla = /(mozilla)(?:.*? rv:([\w.]+))?/;
         var match =
-            rchrome.exec( ua ) ||
-            rsafari.exec( ua ) ||
-            rwebkit.exec( ua ) ||
-            ropera.exec( ua ) ||
-            rmsie.exec( ua ) ||
-            rfirefox.exec( ua ) ||
-            rmozilla.exec( ua ) ||
-            [];
+        rchrome.exec( ua ) ||
+        rsafari.exec( ua ) ||
+        rwebkit.exec( ua ) ||
+        ropera.exec( ua ) ||
+        rmsie.exec( ua ) ||
+        rfirefox.exec( ua ) ||
+        rmozilla.exec( ua ) ||
+        [];
         var rtn={};
         rtn[match[1]||'']=true;
         rtn.version=match[2]||0;
@@ -389,7 +389,7 @@
             return new ActiveXObject("Microsoft.XMLHTTP");
         } //try IE(different lib)
         catch (err) { }
-        return null; //failed to create XMLHttpRequest
+        return NULL; //failed to create XMLHttpRequest
     }
     function _ajax(setting) {
         var defaultSetting = _ajaxSetting;
@@ -435,7 +435,7 @@
             timer = setTimeout(function() {
                 xhr.abort();
                 if (_error) {//do timeout error callback
-                    _error(null, null, 'timeout'); //should not use xhr,may cause bug
+                    _error(NULL, NULL, 'timeout'); //should not use xhr,may cause bug
                 }
             }, _timeout);
         }
@@ -445,7 +445,7 @@
             if (_data) {
                 xhr.setRequestHeader("Content-Type", _contentType);
             }
-            xhr.send(_encodeFormData(_data) || null);
+            xhr.send(_encodeFormData(_data) || NULL);
         } else {//GET request
             if (_data) {
                 _url += (/\?/.test(_url) ? "&" : "?") + _encodeFormData(_data);
@@ -459,8 +459,8 @@
         var pairs = [];
         var regex = /%20/g;
         for (var name in data) {
-            var value = (data[name] != null) ? data[name].toString() : null;
-            if(value!==null && value!==undefined){
+            var value = (data[name] != NULL) ? data[name].toString() : NULL;
+            if(value!==NULL && value!==UNDEFINED){
                 var pair = encodeURIComponent(name).replace(regex, '+') + '=' +
                 encodeURIComponent(value).replace(regex, '+');
                 pairs.push(pair);
@@ -529,7 +529,7 @@
         },
         html: function(val) {//set element html value
             var thisObj = this;
-            if (val !== undefined) {
+            if (val !== UNDEFINED) {
                 for (var i = 0; i < thisObj[LEN]; i++) {
                     try {//try use innerHTML
                         thisObj[i].innerHTML = val;
@@ -543,14 +543,14 @@
                 }
                 return thisObj;
             } else {
-                return (thisObj[LEN] > 0) ? thisObj[0].innerHTML : null;
+                return (thisObj[LEN] > 0) ? thisObj[0].innerHTML : NULL;
             }
         },
         text: function(val) {
             var thisObj = this;
             var innerText = 'innerText';
             var textContent = 'textContent';
-            if (val !== undefined) {
+            if (val !== UNDEFINED) {
                 for (var i = 0; i < thisObj[LEN]; i++) {
                     if (innerText in thisObj[i]) {
                         thisObj[i][innerText] = val;
@@ -560,7 +560,7 @@
                 }
                 return thisObj;
             } else {
-                return (thisObj[LEN] > 0) ? ((innerText in thisObj[0]) ? thisObj[0][innerText] : thisObj[0][textContent]) : null;
+                return (thisObj[LEN] > 0) ? ((innerText in thisObj[0]) ? thisObj[0][innerText] : thisObj[0][textContent]) : NULL;
             }
         },
         append: function(childElm) {//append element child
@@ -660,9 +660,9 @@
         css: function(style, val) {//elements css get(from first) & set(to all)
             var thisObj = this;
             var setStyle = {};
-            if (val === undefined) {
+            if (val === UNDEFINED) {
                 if (_isStr(style)) {//get style
-                    return (thisObj[LEN] > 0) ? _css(thisObj[0], style) : null;
+                    return (thisObj[LEN] > 0) ? _css(thisObj[0], style) : NULL;
                 } else {//set style
                     setStyle = style;
                 }
@@ -677,9 +677,9 @@
         attr: function(attribute, val) {//set elements attribute
             var thisObj = this;
             var setAttr = {};
-            if (val === undefined) {
+            if (val === UNDEFINED) {
                 if (_isStr(attribute)) {//get attribute
-                    return (thisObj[LEN] > 0) ? thisObj[0].getAttribute(attribute) : null;
+                    return (thisObj[LEN] > 0) ? thisObj[0].getAttribute(attribute) : NULL;
                 } else {//set attributes
                     setAttr = attribute;
                 }
@@ -754,7 +754,7 @@
         }
     });
     var eventArr=['blur','change','click','dblclick','error','focus','keydown','keypress','keyup','load',
-        'mousedown','mousemove','mouseout','mouseover','mouseup','resize','scroll','select','submit','unload'];
+    'mousedown','mousemove','mouseout','mouseover','mouseup','resize','scroll','select','submit','unload'];
     for(var i in eventArr){
         (function(e){
             _core.prototype[e]=(function(fn){
@@ -765,4 +765,4 @@
     /* set Gnim to window global */
     if(set$)window.$ = Gnim;
     window.Gnim = Gnim;
-})(window, document, true);
+})(window, document, true, null);

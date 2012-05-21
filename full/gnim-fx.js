@@ -3,7 +3,7 @@
  * By Ming
  * http://www.gnim.net
  */
-(function($,undefined) {
+(function($,NULL,UNDEFINED) {
     /******************** private variable of FX plugin ********************/
     /*
     * animQueue[] array contain all running animation
@@ -35,7 +35,7 @@
     * it will trigger each 20 ms
     * it will stop when animQueue is empty
     */
-    var animTimer = null; //the global timer for all animate
+    var animTimer = NULL; //the global timer for all animate
     var frameSpeed = 20;
     var toInt=$.toInt;
     var toFloat=$.toFloat;
@@ -48,7 +48,7 @@
         });
     }
     function _fixBorder(styles,type){
-        var border=null;
+        var border=NULL;
         for(var style in styles){
             var name=_camelize(style);
             if(name=='border'+type){
@@ -136,7 +136,7 @@
     function _runAnim() {//each time the timer trigger,will run this function once
         if (animQueue.length == 0) {
             clearInterval(animTimer);
-            animTimer = null;
+            animTimer = NULL;
         } else {
             var curTime = $.now();
             for (var i = 0; i < animQueue.length; i++) {
@@ -145,7 +145,7 @@
                 if (passTime >= animate.d) {//animate end
                     animate.n.css(animate.s); //set style for done
                     if (animate.c) animate.c.apply(animate.n[0]);
-                    animQueue[i] = null;
+                    animQueue[i] = NULL;
                     animQueue.splice(i, 1); //delete animate
                     i--;
                 } else {
@@ -161,7 +161,7 @@
         }
     }
     function _startAnim() {//start timer if it stopped
-        if (animTimer == null) {//animate not running,start!
+        if (animTimer == NULL) {//animate not running,start!
             animTimer = setInterval(function() {
                 _runAnim();
             }, frameSpeed);
@@ -187,7 +187,7 @@
             return (node.offsetTop + node.offsetHeight) + 'px';
         }
         if (window.getComputedStyle) {//for W3C way
-            return window.getComputedStyle(node, null)[style];
+            return window.getComputedStyle(node, NULL)[style];
         }
         if (style == 'opacity' && $.broswer.msie) {//IE opacity
             return node.style.filter && node.style.filter.indexOf("opacity=") >= 0 ? parseFloat(node.style.filter.match(/opacity=([^)]*)/)[1]) / 100 : 1;
@@ -244,7 +244,7 @@
             sAnim.s = _computeStartEnd(name, _currentStyle(node, name), styles[name]);
             animate.p.push(sAnim);
         }
-        if (duration === undefined) {//for default speed 500ms
+        if (duration === UNDEFINED) {//for default speed 500ms
             animate.d = 500;
         } else if (duration === 'fast') {//for fast speed 200ms
             animate.d = 200;
@@ -256,13 +256,13 @@
     }
     function _getLeft(node) {
         var offset = node.offsetLeft;
-        if (node.offsetParent != null)
+        if (node.offsetParent != NULL)
             offset += _getLeft(node.offsetParent);
         return offset;
     }
     function _getTop(node) {
         var offset = node.offsetTop;
-        if (node.offsetParent != null)
+        if (node.offsetParent != NULL)
             offset += _getTop(node.offsetParent);
         return offset;
     }
@@ -278,7 +278,7 @@
         var elms = $(node);
         if (elms.length > 0)
             return _currentStyle(elms[0], style);
-        return null;
+        return NULL;
     };
     fx.anim = function(node, styles, duration, callback, type) {
         var elms = $(node);
@@ -297,7 +297,7 @@
     core.currentStyle = function(style) {
         if (this.length > 0)
             return _currentStyle(this[0],style);
-        return null;
+        return NULL;
     }
     core.anim = function(styles, duration, callback, type) {
         for (var i = 0; i < this.length; i++) {
@@ -308,24 +308,24 @@
     core.left = function() {
         if (this.length > 0)
             return _getLeft(this[0]);
-        return null;
+        return NULL;
     }
     core.top = function() {
         if (this.length > 0)
             return _getTop(this[0]);
-        return null;
+        return NULL;
     }
     core.width = function() {
         if (this.length > 0)
             return _getWidth(this[0]);
-        return null;
+        return NULL;
     }
     core.height = function() {
         if (this.length > 0)
             return _getHeight(this[0]);
-        return null;
+        return NULL;
     }
     /******************** Make it into Gnim ********************/
     $.fx = fx;
     $.inject($.core.prototype, core);
-})(Gnim);
+})(Gnim,null);
