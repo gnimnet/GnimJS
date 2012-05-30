@@ -213,7 +213,7 @@
             val.u = ''; //no unit
             return (val.b && val.e) ? val:valEnd;
         }else{
-            var regex = /^(\d*)([a-zA-Z]*)$/;
+            var regex = /^(-?\d*)([a-zA-Z]*)$/;
             if (valStart)
                 var start = valStart.match(regex);
             if (valEnd)
