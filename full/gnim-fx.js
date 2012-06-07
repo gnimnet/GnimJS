@@ -178,13 +178,13 @@
             return node.offsetLeft + 'px';
         }
         if (style == 'right') {
-            return (node.offsetLeft + node.offsetWidth) + 'px';
+            return (node.offsetParent.clientWidth - node.offsetLeft - node.offsetWidth) + 'px';
         }
         if (style == 'top') {
             return node.offsetTop + 'px';
         }
         if (style == 'bottom') {
-            return (node.offsetTop + node.offsetHeight) + 'px';
+            return (node.offsetParent.clientHeight -node.offsetTop - node.offsetHeight) + 'px';
         }
         if (window.getComputedStyle) {//for W3C way
             return window.getComputedStyle(node, NULL)[style];
