@@ -119,6 +119,7 @@
             for (var i = 0; i < this.length; i++) {
                 _shortcut(shortcut, callback, this[i]);
             }
+            return this;
         }
     });
 })(Gnim);
