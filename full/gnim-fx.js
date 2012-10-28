@@ -227,7 +227,7 @@
             return valEnd;
         }
     }
-    function _anim(node, styles, duration, callback, type) {//element animate support
+    function _anim(node, styles, duration, callback, startStyles, type) {//element animate support
         _fixStyles(styles);
         var animate = {
             b:$.now(), //begin timestamp
@@ -238,10 +238,15 @@
             c:callback, //callback function
             t:type //animate type
         };
+        if(startStyles){
+            animate.n.css(startStyles);
+        }
         for (var name in styles) {//get all current styles
             var sAnim = {};
             sAnim.n = name;
-            sAnim.s = _computeStartEnd(name, _currentStyle(node, name), styles[name]);
+            var startStyle=startStyles?startStyles[name]:NULL;
+            startStyle=startStyle||_currentStyle(node, name);
+            sAnim.s = _computeStartEnd(name, startStyle, styles[name]);
             animate.p.push(sAnim);
         }
         if (duration === UNDEFINED) {//for default speed 500ms
@@ -280,10 +285,10 @@
             return _currentStyle(elms[0], style);
         return NULL;
     };
-    fx.anim = function(node, styles, duration, callback, type) {
+    fx.anim = function(node, styles, duration, callback, startStyle, type) {
         var elms = $(node);
         if (elms.length > 0) {
-            _anim(elms[i], styles, duration, callback, type);
+            _anim(elms[i], styles, duration, callback, startStyle, type);
             return true;
         }
         return false;
@@ -299,9 +304,9 @@
             return _currentStyle(this[0],style);
         return NULL;
     }
-    core.anim = function(styles, duration, callback, type) {
+    core.anim = function(styles, duration, callback, startStyle, type) {
         for (var i = 0; i < this.length; i++) {
-            _anim(this[i], styles, duration, callback, type);
+            _anim(this[i], styles, duration, callback, startStyle, type);
         }
         return this;
     }
