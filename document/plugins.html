@@ -47,7 +47,7 @@ $(<span class="str">'#shortcut .input'</span>).shortcut(<span class="str">'Ctrl 
             <p>插件包括静态函数 <code>$.fx.currentStyle</code> 、 <code>$.fx.anim</code> 、 <code>$.fx.left</code> 、 <code>$.fx.right</code> 、 <code>$.fx.top</code> 、 <code>$.fx.bottom</code> 。
                 以及核心函数 <code>$(selector).currentStyle</code> 、 <code>$(selector).anim</code> 、 <code>$(selector).left</code> 、 <code>$(selector).right</code> 、 <code>$(selector).top</code> 、 <code>$(selector).bottom</code> 。</p>
             <pre class="pre">$.fx.currentStyle(node,style);<span class="com">//获取元素当前渲染样式名称</span>
-$.fx.anim(node, styles, duration, callback, type);<span class="com">//DOM元素动画</span>
+$.fx.anim(node, styles, duration, callback, startStyles, type);<span class="com">//DOM元素动画</span>
 $.fx.left(node);<span class="com">//DOM元素左距离</span>
 $.fx.right(node);<span class="com">//DOM元素右距离</span>
 $.fx.top(node);<span class="com">//DOM元素顶距离</span>
@@ -58,8 +58,9 @@ $(selector).currentStyle(style);<span class="com">//第一个元素当前渲染�
 <span class="com">//  styles  --  结束样式对象</span>
 <span class="com">//  duration  --  (可选)duration可为一个ms时间或者'fast'(200ms)、'slow'(1000ms)，默认为500ms</span>
 <span class="com">//  callback  --  (可选)callback回调函数的this为对应动画元素</span>
+<span class="com">//  startStyles  --  起始样式对象</span>
 <span class="com">//  type  --  (可选)type可以为'liner'(线性),'sine'(三角函数),'inertia'(重力回旋)，默认为二次</span>
-$(selector).anim(styles, duration, callback, type);
+$(selector).anim(styles, duration, callback, startStyles, type);
 $(selector).left();<span class="com">//第一个DOM元素左距离</span>
 $(selector).right();<span class="com">//第一个DOM元素右距离</span>
 $(selector).top();<span class="com">//第一个DOM元素顶距离</span>
