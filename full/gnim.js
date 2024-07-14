@@ -1,17 +1,19 @@
 /**
- * Gnim JS library v1.0.7
+ * Gnim JS library v1.0.8
  * Author : Ming
- * Date : 2012-03-03
+ * Date : 2024-01-31
  * WebSite : http://gnim.net
  */
-(function(window, document, set$, NULL, UNDEFINED) {
+(function (window, document, set$, NULL, UNDEFINED) {
     var LEN = 'length';
+
     function Gnim(selector, context) {
         return (selector && selector._gnim) ? selector : new _core(selector, context);
     }
+
     function _core(selector, context) {//constructor of Gnim core
         this._gnim = true; //mark object to be Gnim library core object
-        if(selector!==NULL && selector!==UNDEFINED){
+        if (selector !== NULL && selector !== UNDEFINED) {
             var elms;
             if (_isStr(selector)) {//selector or html string
                 if (selector.charAt(0) == '<') {//is html string
@@ -19,7 +21,7 @@
                 } else {//is selector string,use engine get match elements
                     elms = _engine(selector, context);
                 }
-            } else if (selector.nodeType===1) {//html element
+            } else if (selector.nodeType === 1) {//html element
                 elms = [selector];
             } else if (_isNum(selector[LEN])) {//array elements
                 elms = selector;
@@ -30,18 +32,19 @@
             for (var i = 0; i < elms[LEN]; i++) {
                 this[i] = elms[i]; //copy elements
             }
-        }else{
-            this[LEN]=0;
+        } else {
+            this[LEN] = 0;
         }
     }
+
     function _engine(selector, context) {//engine for select element
         context = context || document;
-        if (_isStr(context)){
+        if (_isStr(context)) {
             context = Gnim(context);
-        } else if(_isNum(context[LEN])) {
-            context=context;
+        } else if (_isNum(context[LEN])) {
+            context = context;
         } else {
-            context=[context];
+            context = [context];
         }
         if (!context) return [];
         var regex = /(#|\.|\s|^)(.*?)(#|\.|\s|$)/;
@@ -56,7 +59,7 @@
             while (sStr != '') {
                 oldArr = newArr;
                 newArr = [];
-                sStr = sStr.replace(regex, function($0, $1, $2, $3) {
+                sStr = sStr.replace(regex, function ($0, $1, $2, $3) {
                     oper = $1;
                     name = $2;
                     return $3;
@@ -85,6 +88,7 @@
         }
         return rtn;
     }
+
     /* helper tool functions */
     function _I(id) {//get element by id,arguments will be string id or an element
         if (_isStr(id)) {
@@ -93,6 +97,7 @@
         }
         return [id];
     }
+
     function _C(cname, context) {//get element by class name
         context = context || document;
         if (context.getElementsByClassName) {//for Mozilla & Opera & webkit
@@ -108,79 +113,96 @@
         }
         return matchElms;
     }
+
     function _T(tname, context) {//get element by tag name
         context = context || document;
         return context.getElementsByTagName(tname);
     }
+
     function _camelize(s) {//get camelize style string
-        return s.replace(/-(\w)/g, function(strMatch, p1) {
+        return s.replace(/-(\w)/g, function (strMatch, p1) {
             return p1.toUpperCase();
         });
     }
+
     function _isStr(obj) {
         return (typeof obj == 'string');
     }
+
     function _isNum(obj) {
         return (typeof obj == 'number');
     }
+
     function _isObj(obj) {
         return (typeof obj == 'object');
     }
+
     function _isFunc(obj) {
         return (typeof obj == 'function');
     }
+
     function _isArr(obj) {
         return obj && _isNum(obj[LEN]);
     }
+
     function _isArray(obj) {
         return Object.prototype.toString.apply(obj) === '[object Array]';
     }
+
     function _toStr(obj) {
         return '' + obj;
     }
+
     function _toInt(obj) {
         return parseInt(obj);
     }
+
     function _toFloat(obj) {
         return parseFloat(obj);
     }
-    function _toHex(num,count){
-        var rtn='';
-        count=count||0;
-        num=_toInt(num);
-        var nag=(num<0);
-        if(num==0){
-            rtn='0';
+
+    function _toHex(num, count) {
+        var rtn = '';
+        count = count || 0;
+        num = _toInt(num);
+        var nag = (num < 0);
+        if (num == 0) {
+            rtn = '0';
             count--;
-        }else{
-            num=nag?(-num):num;
+        } else {
+            num = nag ? (-num) : num;
             var val;
-            while(num>0){
-                val=num%16;
-                rtn=String.fromCharCode(val<10?(48+val):(97+val-10))+rtn;
-                num=_toInt(num/16);
+            while (num > 0) {
+                val = num % 16;
+                rtn = String.fromCharCode(val < 10 ? (48 + val) : (97 + val - 10)) + rtn;
+                num = _toInt(num / 16);
                 count--;
             }
         }
-        while(count-->0){
-            rtn='0'+rtn;
+        while (count-- > 0) {
+            rtn = '0' + rtn;
         }
-        return nag ? ('-'+rtn) : rtn;
+        return nag ? ('-' + rtn) : rtn;
     }
+
     function _trim(str) {//delete space around string
         return str.replace(/^\s+|\s+$/g, '');
     }
+
     function _ltrim(str) {//delete left space of string
         return str.replace(/^\s+/g, '');
     }
+
     function _rtrim(str) {//delete left space of string
         return str.replace(/\s+$/g, '');
     }
+
     function _inject(obj1, obj2) {
         for (var elm in obj2) {
             obj1[elm] = obj2[elm];
         }
     }
+
     function _addEvent(node, type, listener) {//add event to node
         if (node.addEventListener) {//W3C way
             node.addEventListener(type, listener, false);
@@ -191,6 +213,7 @@
         }
         return false;
     }
+
     function _removeEvent(node, type, listener) {//remove event form node
         if (node.removeEventListener) {//W3C way
             node.removeEventListener(type, listener, false);
@@ -201,9 +224,11 @@
         }
         return false;
     }
+
     function _append(father, child) {//append element
         father.appendChild(child);
     }
+
     function _prepend(father, child) {//prepend element
         if (father.firstChild) {//has frist child
             father.insertBefore(child, father.firstChild);
@@ -211,19 +236,22 @@
             father.appendChild(child);
         }
     }
+
     function _after(referNode, node) {
         var childs = referNode.parentNode.childNodes;
         for (var i = 0; i < childs[LEN]; i++) {//find referNode
-            if (childs.item(i) === referNode && (i+1<childs[LEN])) {//got next after referNode
+            if (childs.item(i) === referNode && (i + 1 < childs[LEN])) {//got next after referNode
                 _before(childs.item(i + 1), node);
                 return;
             }
         }
         _append(referNode.parentNode, node);
     }
+
     function _before(referNode, node) {
         referNode.parentNode.insertBefore(node, referNode);
     }
+
     function _hasClass(node, className) {//test class on node
         var regex = new RegExp('(^|\\s)' + className + '(\\s|$)');
         if (regex.test(node.className)) {
@@ -231,23 +259,28 @@
         }
         return false;
     }
+
     function _addClass(node, className) {//add class to node
         if (!_hasClass(node, className)) {
             node.className += ' ' + className;
         }
     }
+
     function _removeClass(node, className) {//remove class on node
         var regex = new RegExp('(^|\\s*)' + className + '(\\s*|$)');
         node.className = node.className.replace(regex, ' ');
     }
+
     function _remove(node) {//remove node from document
         node.parentNode.removeChild(node);
     }
+
     function _empty(node) {//empty node content
         while (node.firstChild) {
             node.removeChild(node.firstChild);
         }
     }
+
     function _build(htmlStr) {//bulid html string to elements array
         var nodes = [];
         var div = document.createElement('div');
@@ -258,6 +291,7 @@
         }
         return nodes;
     }
+
     function _css(node, style) {//set css style,parameter style is an object
         if (_isStr(style)) {
             if (style === 'opacity') {
@@ -288,6 +322,7 @@
             }
         }
     }
+
     function _noBubble(e) {//stop event propagation
         if (e.stopPropagation) {
             e.stopPropagation();
@@ -295,6 +330,7 @@
             e.cancelBubble = true;
         }
     }
+
     function _noDefault(e) {//stop default event
         if (e.preventDefault) {
             e.preventDefault();
@@ -302,9 +338,11 @@
             e.returnValue = false;
         }
     }
+
     function _now() {
         return (new Date()).getTime();
     }
+
     function _log(msg, selector) {
         if (selector === UNDEFINED) {
             if (console && console.log) {
@@ -315,49 +353,52 @@
         }
         return msg;
     }
+
     /* broswer test */
-    var _broswer = (function(ua) {
+    var _broswer = (function (ua) {
         var rchrome = /(chrome)[ \/]([\w.]+)/,
-        rsafari = /(safari)[ \/]([\w.]+)/,
-        rwebkit = /(webkit)[ \/]([\w.]+)/,
-        ropera = /(opera)(?:.*version)?[ \/]([\w.]+)/,
-        rmsie = /(msie) ([\w.]+)/,
-        rfirefox = /(firefox)[ \/]([\w.]+)/,
-        rmozilla = /(mozilla)(?:.*? rv:([\w.]+))?/;
+            rsafari = /(safari)[ \/]([\w.]+)/,
+            rwebkit = /(webkit)[ \/]([\w.]+)/,
+            ropera = /(opera)(?:.*version)?[ \/]([\w.]+)/,
+            rmsie = /(msie) ([\w.]+)/,
+            rfirefox = /(firefox)[ \/]([\w.]+)/,
+            rmozilla = /(mozilla)(?:.*? rv:([\w.]+))?/;
         var match =
-        rchrome.exec( ua ) ||
-        rsafari.exec( ua ) ||
-        rwebkit.exec( ua ) ||
-        ropera.exec( ua ) ||
-        rmsie.exec( ua ) ||
-        rfirefox.exec( ua ) ||
-        rmozilla.exec( ua ) ||
-        [];
-        var rtn={};
-        rtn[match[1]||'']=true;
-        rtn.version=match[2]||0;
+            rchrome.exec(ua) ||
+            rsafari.exec(ua) ||
+            rwebkit.exec(ua) ||
+            ropera.exec(ua) ||
+            rmsie.exec(ua) ||
+            rfirefox.exec(ua) ||
+            rmozilla.exec(ua) ||
+            [];
+        var rtn = {};
+        rtn[match[1] || ''] = true;
+        rtn.version = match[2] || 0;
         return rtn;
     })(window.navigator.userAgent.toLowerCase());
-    var _ie8_=_broswer.msie && _broswer.version<9;//ie8-
+    var _ie8_ = _broswer.msie && _broswer.version < 9;//ie8-
     /* DOM ready solver */
     var isReady = false;
     var readyArray = []; //function array for ready()
     var DOMContentLoaded;
+
     function _runReady() {//run all functions in ready pool & clean ready pool
         isReady = true;
         while (readyArray[LEN] != 0) {
             readyArray.pop()(); //run function
         }
     }
+
     if (document.addEventListener) {//for Mozilla & Opera & webkit
-        DOMContentLoaded = function() {
+        DOMContentLoaded = function () {
             document.removeEventListener("DOMContentLoaded", DOMContentLoaded, false);
             _runReady();
         }
         document.addEventListener('DOMContentLoaded', DOMContentLoaded, false); //faster
         window.addEventListener('load', _runReady, false); //fallback to always work one
     } else if (document.attachEvent) {//for IE
-        DOMContentLoaded = function() {
+        DOMContentLoaded = function () {
             if (document.readyState === "complete") {
                 document.detachEvent("onreadystatechange", DOMContentLoaded);
                 _runReady();
@@ -366,9 +407,11 @@
         document.attachEvent('onreadystatechange', DOMContentLoaded); //faster
         window.attachEvent('onload', _runReady); //fallback to always work one
     }
+
     function _ready(fn) {
         isReady ? fn() : readyArray.push(fn);
     }
+
     /* Ajax support */
     var _ajaxSetting = {
         url: location.href,
@@ -376,21 +419,26 @@
         contentType: 'application/x-www-form-urlencoded',
         dataType: 'text'
     };
+
     function _newRequest() {
         try {
             return new XMLHttpRequest();
         } //try Most Browsers
-        catch (err) { }
+        catch (err) {
+        }
         try {
             return new ActiveXObject("Msxml2.XMLHTTP");
         } //try IE
-        catch (err) { }
+        catch (err) {
+        }
         try {
             return new ActiveXObject("Microsoft.XMLHTTP");
         } //try IE(different lib)
-        catch (err) { }
+        catch (err) {
+        }
         return NULL; //failed to create XMLHttpRequest
     }
+
     function _ajax(setting) {
         var defaultSetting = _ajaxSetting;
         var _url = setting.url ? setting.url : defaultSetting.url; //get url
@@ -405,7 +453,7 @@
         //get XMLHttpRequest
         var xhr = _newRequest();
         if (!xhr) return xhr; //create failed,exit...
-        xhr.onreadystatechange = function() {
+        xhr.onreadystatechange = function () {
             if (xhr.readyState == 4) {//response ok
                 if (timer) clearTimeout(timer); //clear timer
                 if (xhr.status == 200) {
@@ -413,17 +461,14 @@
                         var rdata = xhr.responseText;
                         if (_dataType == 'text') {
                             rdata = xhr.responseText;
-                        }
-                        else if (_dataType == 'json') {
+                        } else if (_dataType == 'json') {
                             rdata = eval('(' + xhr.responseText + ')');
-                        }
-                        else if (_dataType == 'xml') {
+                        } else if (_dataType == 'xml') {
                             rdata = xhr.responseXML;
                         }
                         _success(rdata);
                     }
-                }
-                else if (xhr.status != 0) {//response ok,something wrong
+                } else if (xhr.status != 0) {//response ok,something wrong
                     if (_error) {
                         _error(xhr, xhr.status, 'error');
                     }
@@ -432,7 +477,7 @@
         }
         //check timeout
         if (_isNum(_timeout)) {//has time out
-            timer = setTimeout(function() {
+            timer = setTimeout(function () {
                 xhr.abort();
                 if (_error) {//do timeout error callback
                     _error(NULL, NULL, 'timeout'); //should not use xhr,may cause bug
@@ -455,19 +500,21 @@
         }
         return xhr;
     }
+
     function _encodeFormData(data) {
         var pairs = [];
         var regex = /%20/g;
         for (var name in data) {
             var value = (data[name] != NULL) ? data[name].toString() : NULL;
-            if(value!==NULL && value!==UNDEFINED){
+            if (value !== NULL && value !== UNDEFINED) {
                 var pair = encodeURIComponent(name).replace(regex, '+') + '=' +
-                encodeURIComponent(value).replace(regex, '+');
+                    encodeURIComponent(value).replace(regex, '+');
                 pairs.push(pair);
             }
         }
         return pairs.join('&');
     }
+
     function _post(_url, _data, _cb, _type) {
         return _ajax({
             type: 'POST',
@@ -477,6 +524,7 @@
             dataType: _type
         });
     }
+
     function _get(_url, _data, _cb) {
         return _ajax({
             type: 'GET',
@@ -485,6 +533,7 @@
             success: _cb
         });
     }
+
     /* set static elements */
     _inject(Gnim, {
         //static varibles
@@ -517,17 +566,17 @@
         get: _get
     });
     _inject(_core.prototype, {
-        each: function(fn) {//for each element do a function parameter to be the element
+        each: function (fn) {//for each element do a function parameter to be the element
             var thisObj = this;
             for (var i = 0; i < thisObj[LEN]; i++) {
                 fn(thisObj[i]);
             }
             return thisObj;
         },
-        find:function(selector){//find child nodes
-            return $(selector,this);
+        find: function (selector) {//find child nodes
+            return $(selector, this);
         },
-        html: function(val) {//set element html value
+        html: function (val) {//set element html value
             var thisObj = this;
             if (val !== UNDEFINED) {
                 for (var i = 0; i < thisObj[LEN]; i++) {
@@ -546,7 +595,7 @@
                 return (thisObj[LEN] > 0) ? thisObj[0].innerHTML : NULL;
             }
         },
-        text: function(val) {
+        text: function (val) {
             var thisObj = this;
             var innerText = 'innerText';
             var textContent = 'textContent';
@@ -563,7 +612,7 @@
                 return (thisObj[LEN] > 0) ? ((innerText in thisObj[0]) ? thisObj[0][innerText] : thisObj[0][textContent]) : NULL;
             }
         },
-        append: function(childElm) {//append element child
+        append: function (childElm) {//append element child
             var thisObj = this;
             if (thisObj[LEN] > 0) {
                 var child = Gnim(childElm);
@@ -573,7 +622,7 @@
             }
             return thisObj;
         },
-        appendTo: function(fatherElm) {//append element to
+        appendTo: function (fatherElm) {//append element to
             var thisObj = this;
             var father = Gnim(fatherElm);
             if (father[LEN] > 0) {
@@ -583,7 +632,7 @@
             }
             return thisObj;
         },
-        prepend: function(childElm) {//prepend element child
+        prepend: function (childElm) {//prepend element child
             var thisObj = this;
             if (thisObj[LEN] > 0) {
                 var child = Gnim(childElm);
@@ -593,7 +642,7 @@
             }
             return thisObj;
         },
-        prependTo: function(fatherElm) {//prepend element to
+        prependTo: function (fatherElm) {//prepend element to
             var thisObj = this;
             fatherElm = Gnim(fatherElm);
             if (fatherElm[LEN] > 0) {
@@ -603,7 +652,7 @@
             }
             return thisObj;
         },
-        after: function(content) {//insert content after last match element
+        after: function (content) {//insert content after last match element
             var thisObj = this;
             if (thisObj[LEN] > 0) {
                 content = Gnim(content);
@@ -613,7 +662,7 @@
             }
             return thisObj;
         },
-        insertAfter: function(target) {//insert match elements after target
+        insertAfter: function (target) {//insert match elements after target
             var thisObj = this;
             target = Gnim(target);
             if (target[LEN] > 0) {
@@ -623,7 +672,7 @@
             }
             return thisObj;
         },
-        before: function(content) {//insert content before last match element
+        before: function (content) {//insert content before last match element
             var thisObj = this;
             if (thisObj[LEN] > 0) {
                 content = Gnim(content);
@@ -633,7 +682,7 @@
             }
             return thisObj;
         },
-        insertBefore: function(target) {//insert match elements after target
+        insertBefore: function (target) {//insert match elements after target
             var thisObj = this;
             target = Gnim(target);
             if (target[LEN] > 0) {
@@ -643,21 +692,21 @@
             }
             return thisObj;
         },
-        remove: function() {//remove all elements
+        remove: function () {//remove all elements
             var thisObj = this;
             for (var i = 0; i < thisObj[LEN]; i++) {
                 _remove(thisObj[i]);
             }
             return thisObj;
         },
-        empty: function() {//empty all elements
+        empty: function () {//empty all elements
             var thisObj = this;
             for (var i = 0; i < thisObj[LEN]; i++) {
                 _empty(thisObj[i]);
             }
             return thisObj;
         },
-        css: function(style, val) {//elements css get(from first) & set(to all)
+        css: function (style, val) {//elements css get(from first) & set(to all)
             var thisObj = this;
             var setStyle = {};
             if (val === UNDEFINED) {
@@ -674,7 +723,7 @@
             }
             return thisObj;
         },
-        attr: function(attribute, val) {//set elements attribute
+        attr: function (attribute, val) {//set elements attribute
             var thisObj = this;
             var setAttr = {};
             if (val === UNDEFINED) {
@@ -693,14 +742,14 @@
             }
             return thisObj;
         },
-        removeAttr: function(aname) {//remove elements attribute
+        removeAttr: function (aname) {//remove elements attribute
             var thisObj = this;
             for (var i = 0; i < thisObj[LEN]; i++) {
                 thisObj[i].removeAttribute(aname);
             }
             return thisObj;
         },
-        hasClass: function(className) {//check first elements class
+        hasClass: function (className) {//check first elements class
             var thisObj = this;
             if (thisObj[LEN] > 0) {
                 return _hasClass(thisObj[0], className);
@@ -708,21 +757,21 @@
                 return false;
             }
         },
-        addClass: function(className) {//add class to elements
+        addClass: function (className) {//add class to elements
             var thisObj = this;
             for (var i = 0; i < thisObj[LEN]; i++) {
                 _addClass(thisObj[i], className);
             }
             return thisObj;
         },
-        removeClass: function(className) {//remove class on elements
+        removeClass: function (className) {//remove class on elements
             var thisObj = this;
             for (var i = 0; i < thisObj[LEN]; i++) {
                 _removeClass(thisObj[i], className);
             }
             return thisObj;
         },
-        toggleClass: function(className) {//toggle class on elements
+        toggleClass: function (className) {//toggle class on elements
             var thisObj = this;
             var attrName = 'className';
             for (var i = 0; i < thisObj[LEN]; i++) {
@@ -735,34 +784,34 @@
             }
             return thisObj;
         },
-        bind: function(type, fn) {//bind function to node(s)
+        bind: function (type, fn) {//bind function to node(s)
             var thisObj = this;
             for (var i = 0; i < thisObj[LEN]; i++) {
                 _addEvent(thisObj[i], type, fn);
             }
             return thisObj;
         },
-        unbind: function(type, fn) {//unbind function to node(s)
+        unbind: function (type, fn) {//unbind function to node(s)
             var thisObj = this;
             for (var i = 0; i < thisObj[LEN]; i++) {
                 _removeEvent(thisObj[i], type, fn);
             }
             return thisObj;
         },
-        hover: function(overfn, outfn) {//hover event
-            return this.mouseover(overfn).mouseout(outfn || overfn);
+        hover: function (enterfn, leavefn) {//hover event
+            return this.mouseover(enterfn).mouseout(leavefn || enterfn);
         }
     });
-    var eventArr=['blur','change','click','dblclick','error','focus','keydown','keypress','keyup','load',
-    'mousedown','mousemove','mouseout','mouseover','mouseup','resize','scroll','select','submit','unload'];
-    for(var i in eventArr){
-        (function(e){
-            _core.prototype[e]=(function(fn){
-                return this.bind(e,fn);
+    var eventArr = ['blur', 'change', 'click', 'dblclick', 'error', 'focus', 'keydown', 'keypress', 'keyup', 'load',
+        'mousedown', 'mouseenter', 'mousemove', 'mouseout', 'mouseover', 'mouseleave', 'mouseup', 'resize', 'scroll', 'select', 'submit', 'unload'];
+    for (var i in eventArr) {
+        (function (e) {
+            _core.prototype[e] = (function (fn) {
+                return this.bind(e, fn);
             });
         })(eventArr[i]);
     }
     /* set Gnim to window global */
-    if(set$)window.$ = Gnim;
+    if (set$) window.$ = Gnim;
     window.Gnim = Gnim;
 })(window, document, true, null);

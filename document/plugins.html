@@ -29,7 +29,7 @@ $.cookie(<span class="str">'demo'</span>,<span class="sys">null</span>);<span cl
             <!-- 快捷键 -->
             <h3>快捷键</h3>
             <p>快捷键插件提供了网页和页面元素的快捷键绑定支持，使用函数 <code>$.shortcut(shortcut,callback)</code> (绑定全文)和 <code>$(shortcut,callback).shortcut</code> (绑定元素)。</p>
-            <p>shortcut参数必须为 <code>Ctrl,Alt,Shift</code> 作为前缀引导，可使用一个或多个(也可以不使用)，最后为一个一般按键。</p>
+            <p>shortcut参数必须为 <code>Ctrl,Alt,Shift,Meta(Win/Command)</code> 作为前缀引导，可使用一个或多个(也可以不使用)，最后为一个一般按键。</p>
             <p>shortcut参数可以包含 <code>A-Z,0-9,F1-F12,Left,Up,Right,Down,Insert,Delete,Home,End,Pageup,Pagedown,Pause,Backspace,Tab,Enter,Esc,Space,(以及一些ASCII符号)</code></p>
             <pre class="pre">$.shortcut(<span class="str">'Ctrl + Alt + Enter'</span>, <span class="sys">function</span>(e) {
     alert(<span class="str">'Event On: document'</span>);

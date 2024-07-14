@@ -3,9 +3,9 @@
  * By Ming
  * http://www.gnim.net
  */
-(function($){
+(function ($) {
     /******************** private functions ********************/
-    function _cookie(name, value, options){
+    function _cookie(name, value, options) {
         if (value !== undefined) {
             options = options || {};
             if (value === null) {
@@ -13,7 +13,7 @@
                 options.expires = -1;
             }
             var cookiestr = name + "=" + encodeURIComponent(value);
-            
+
             if (typeof options.expires == 'number') {
                 var date = new Date();
                 date.setTime(date.getTime() + (options.expires * 24 * 60 * 60 * 1000));
@@ -29,7 +29,7 @@
             if (pos != -1) {
                 var start = pos + name.length;
                 var end = allcookie.indexOf(";", start);
-                if (end == -1) 
+                if (end == -1)
                     end = allcookie.length;
                 var value = allcookie.substring(start + 1, end);
                 value = decodeURIComponent(value);
@@ -38,6 +38,7 @@
             return null;
         }
     }
+
     /******************** Make it into Gnim ********************/
     $.cookie = _cookie;
 })(Gnim);

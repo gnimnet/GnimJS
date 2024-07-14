@@ -1,9 +1,9 @@
 /*
- * Gnim JS library key event helper v0.1
+ * Gnim JS library key event helper v0.2
  * By Ming
  * http://www.gnim.net
  */
-(function($) {
+(function ($) {
     /******************** private variable of key event helper plugin ********************/
     var eventArr = []; //array for all key event
     var keyMap = {
@@ -48,10 +48,12 @@
         keyMap[String.fromCharCode('0'.charCodeAt(0) + k)] = 48 + k;
     }
     /******************** private functions of key event helper plugin ********************/
+
     /* this function use to map key string to key code */
     function _keyMap(keyStr) {
         return keyMap[keyStr] || 0;
     }
+
     /* this function use to register key shortcut from a shortcut string */
     function _shortcut(shortcut, callback, node) {
         var keys = shortcut.toLowerCase().split('+');
@@ -60,6 +62,7 @@
             ctrl: false,
             alt: false,
             shift: false,
+            meta: false,
             key: null
         };
         var i;
@@ -71,6 +74,8 @@
                 sc.alt = true; //get a alt key
             } else if (key == 'shift') {
                 sc.shift = true; //get a shift key
+            } else if (key == 'meta' || key == 'win' || key == 'command') {
+                sc.meta = true; //get a meta key
             } else {
                 return false; //register failed
             }
@@ -78,33 +83,32 @@
         sc.key = _keyMap($.trim(keys[i]));
         if (sc.key) {
             if (node) {//shortcut for node
-                $(node).keydown(function(event) {
-                    if (sc.ctrl !== event.ctrlKey || sc.alt !== event.altKey || sc.shift !== event.shiftKey ||
-                    (sc.key !== event.keyCode && !(sc.key == 13 && event.keyCode == 10))) {
+                $(node).keydown(function (event) {
+                    if (sc.ctrl !== event.ctrlKey || sc.alt !== event.altKey
+                        || sc.shift !== event.shiftKey || sc.meta !== event.metaKey
+                        || (sc.key !== event.keyCode && !(sc.key == 13 && event.keyCode == 10))) {
                         return; //shortcut not right
                     }
                     //prevent browser default action
                     $.noDefault(event);
                     sc.cb.apply(node, [event]); //do call back
                 });
-            }
-            else {//shortcut for all document
+            } else {//shortcut for all document
                 eventArr.push(sc);
             }
-        }
-        else {
+        } else {
             return false;
         }
     }
+
     /******************** Init code for shortcut plugin ********************/
     //register for shortcut global event listener 
-    $(document).keydown(function(event) {
+    $(document).keydown(function (event) {
         for (var i = 0; i < eventArr.length; i++) {
             var sc = eventArr[i];
-            if (sc.ctrl !== event.ctrlKey || sc.alt !== event.altKey ||
-            sc.shift !== event.shiftKey ||
-            (sc.key !== event.keyCode &&
-            !(sc.key == 13 && event.keyCode == 10))) {
+            if (sc.ctrl !== event.ctrlKey || sc.alt !== event.altKey
+                || sc.shift !== event.shiftKey || sc.meta !== event.metaKey
+                || (sc.key !== event.keyCode && !(sc.key == 13 && event.keyCode == 10))) {
                 continue; //shortcut not right
             }
             //prevent browser default action
@@ -115,7 +119,7 @@
     /******************** Make it into Gnim ********************/
     $.shortcut = _shortcut;
     $.inject($.core.prototype, {
-        shortcut: function(shortcut, callback) {//register short key for all nodes
+        shortcut: function (shortcut, callback) {//register short key for all nodes
             for (var i = 0; i < this.length; i++) {
                 _shortcut(shortcut, callback, this[i]);
             }

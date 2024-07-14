@@ -3,13 +3,13 @@
  * By Ming
  * http://www.gnim.net
  */
-(function($) {
+(function ($) {
     /**
-    * Static functions
-    * this function use like "Gnim.myplugin.show();"
-    */
+     * Static functions
+     * this function use like "Gnim.myplugin.show();"
+     */
     $.myplugin = {
-        show: function() {
+        show: function () {
             alert('hi!');
         }
     };
@@ -18,7 +18,7 @@
      * this function use like "Gnim(selector).show();"
      */
     $.inject($.core.prototype, {
-        show: function() {
+        show: function () {
             for (var i = 0; i < this.length; i++) {
                 alert(i + ':' + this[i].innerHTML);
             }

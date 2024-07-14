@@ -6,6 +6,7 @@
  */
 (function ($, doc) {
     var body = doc.getElementsByTagName('body')[0];
+
     function copy(str) {
         var textarea = doc.createElement('textarea');
         body.appendChild(textarea);
@@ -23,5 +24,6 @@
         }, 50);
         return success;
     }
+
     $.copy = copy;
 })(Gnim, document);

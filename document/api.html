@@ -3,14 +3,14 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <link rel="stylesheet" href="api.css" />
-        <title>GnimJS v1.0.7</title>
+        <title>GnimJS v1.0.8</title>
     </head>
     <body>
         <div class="content">
             <div id="logo">GnimJS</div>
         </div>
         <div class="content">
-            <h2>Welcome to <em>GnimJS</em> v1.0.7</h2>
+            <h2>Welcome to <em>GnimJS</em> v1.0.8</h2>
 
             <!-- 什么是GnimJS -->
             <h3>什么是<em>GnimJS</em>?</h3>
@@ -120,16 +120,18 @@ $(selector).keypress(fn); <span class="com">//在元素上绑定按键点击事�
 $(selector).keyup(fn); <span class="com">//在元素上绑定按键松开事件回调函数</span>
 $(selector).load(fn); <span class="com">//在元素上绑定加载事件回调函数</span>
 $(selector).mousedown(fn); <span class="com">//在元素上绑定鼠标点击按下事件回调函数</span>
-$(selector).mousemove(fn); <span class="com">//在元素上绑定鼠标移动事件回调函数</span>
-$(selector).mouseout(fn); <span class="com">//在元素上绑定鼠标离开事件回调函数</span>
-$(selector).mouseover(fn); <span class="com">//在元素上绑定鼠标进入事件回调函数</span>
 $(selector).mouseup(fn); <span class="com">//在元素上绑定鼠标点击松开事件回调函数</span>
+$(selector).mousemove(fn); <span class="com">//在元素上绑定鼠标移动事件回调函数</span>
+$(selector).mouseenter(fn); <span class="com">//在元素上绑定鼠标无冒泡进入事件回调函数</span>
+$(selector).mouseleave(fn); <span class="com">//在元素上绑定鼠标无冒泡离开事件回调函数</span>
+$(selector).mouseover(fn); <span class="com">//在元素上绑定鼠标有冒泡进入事件回调函数</span>
+$(selector).mouseout(fn); <span class="com">//在元素上绑定鼠标有冒泡离开事件回调函数</span>
 $(selector).resize(fn); <span class="com">//在元素上绑定改变大小事件回调函数</span>
 $(selector).scroll(fn); <span class="com">//在元素上绑定滚动事件回调函数</span>
 $(selector).select(fn); <span class="com">//在元素上绑定选择事件回调函数</span>
 $(selector).submit(fn); <span class="com">//在元素上绑定提交事件回调函数</span>
 $(selector).unload(fn); <span class="com">//在元素上绑定卸载事件回调函数</span>
-$(selector).hover(overfn, outfn); <span class="com">//在元素上绑定进入及离开事件回调函数</span></pre>
+$(selector).hover(enterfn, leavefn); <span class="com">//在元素上绑定进入及离开事件回调函数</span></pre>
 
             <!-- 浏览器检测 -->
             <h3>浏览器检测</h3>
